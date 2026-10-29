@@ -1,8 +1,9 @@
+@use '@fontsource-variable/inter';
 @import 'primeicons/primeicons.css';
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   line-height: 1.5;
   -webkit-tap-highlight-color: transparent;
   background: var(--p-surface-50);

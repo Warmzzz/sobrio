@@ -25,5 +25,8 @@ export class AppDatabase extends Dexie {
     this.on("populate", async () => {
       await this.drinks.bulkAdd(DEFAULT_DRINKS);
     });
+
+    // Ask the browser not to evict our data under storage pressure (all data lives only here)
+    navigator.storage?.persist?.().catch(() => {});
   }
 }

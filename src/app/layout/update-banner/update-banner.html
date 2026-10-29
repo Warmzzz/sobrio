@@ -1,0 +1,9 @@
+<div role="status">
+  @if (updateReady()) {
+    <div class="banner">
+      <i class="pi pi-sparkles" aria-hidden="true"></i>
+      <p>Une nouvelle version de Sobrio est disponible.</p>
+      <button type="button" (click)="reload()">Mettre à jour</button>
+    </div>
+  }
+</div>
