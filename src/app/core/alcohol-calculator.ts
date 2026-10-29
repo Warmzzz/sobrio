@@ -1,5 +1,5 @@
 import { Biometrics } from './preferences';
-import { ConsumedDrink } from './drink';
+import { ConsumedDrink, getEthanolGrams } from './drink';
 
 export interface AlcoholCalculatorOptions {
   distributionFactor?: number;
@@ -36,7 +36,6 @@ interface Dose {
   ethanolGrams: number;
 }
 
-const ETHANOL_DENSITY_G_PER_ML = 0.789;
 const BLOOD_DENSITY_KG_PER_L = 1.055;
 const MALE_DISTRIBUTION_FACTOR = 0.68;
 const FEMALE_DISTRIBUTION_FACTOR = 0.55;
@@ -137,7 +136,7 @@ export class AlcoholCalculator {
 
       return {
         timeMs,
-        ethanolGrams: consumedVolumeMl * (drink.alcoholPercentage / 100) * ETHANOL_DENSITY_G_PER_ML,
+        ethanolGrams: getEthanolGrams(consumedVolumeMl, drink.alcoholPercentage),
       };
     });
   }

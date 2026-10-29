@@ -10,9 +10,17 @@ export interface Drink {
 export type DrinkInput = Pick<Drink, 'name' | 'volumeMl' | 'alcoholPercentage'>;
 
 export interface ConsumedDrink {
+  id: string;
   drink: Drink;
   consumedVolumeMl: number;
   consumedAt: Date;
+}
+
+export const ETHANOL_DENSITY_G_PER_ML = 0.789;
+export const STANDARD_DRINK_GRAMS = 10;
+
+export function getEthanolGrams(volumeMl: number, alcoholPercentage: number): number {
+  return volumeMl * (alcoholPercentage / 100) * ETHANOL_DENSITY_G_PER_ML;
 }
 
 export const DEFAULT_DRINKS: Drink[] = [

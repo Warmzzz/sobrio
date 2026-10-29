@@ -1,0 +1,52 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="drink()?.name ?? ''"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '26rem' }"
+  [breakpoints]="{ '575px': 'calc(100vw - 2rem)' }"
+>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    @if (drink(); as drink) {
+      <p class="hint">{{ formatNumber(drink.alcoholPercentage) }} % d'alcool</p>
+    }
+
+    <div class="field">
+      <label for="consumed-volume">Quantité bue</label>
+      <p-inputnumber
+        inputId="consumed-volume"
+        formControlName="consumedVolumeMl"
+        suffix=" ml"
+        [min]="1"
+        [max]="5000"
+        [useGrouping]="false"
+        [invalid]="isInvalid()"
+        [ariaDescribedBy]="isInvalid() ? 'consumed-volume-error' : undefined"
+        fluid></p-inputnumber>
+      @if (isInvalid()) {
+        <p-message id="consumed-volume-error" severity="error" size="small" variant="simple">
+          Entre 1 et 5000 ml.
+        </p-message>
+      }
+    </div>
+
+    <fieldset class="field">
+      <legend class="label">Quand ?</legend>
+      <div class="chips">
+        @for (option of whenOptions; track option.value) {
+          <label class="chip">
+            <input type="radio" name="minutesAgo" formControlName="minutesAgo" [value]="option.value" />
+            {{ option.label }}
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <div class="actions">
+      <p-button label="Annuler" severity="secondary" [text]="true" (onClick)="visible.set(false)" />
+      <p-button type="submit" label="Ajouter" icon="pi pi-plus" [loading]="saving()" />
+    </div>
+  </form>
+</p-dialog>

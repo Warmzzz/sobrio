@@ -1,1 +1,36 @@
-<h1>Accueil</h1>
+<header class="page-header">
+  <h1>Mon suivi</h1>
+  <p class="date">{{ today() }}</p>
+</header>
+
+@if (loadFailed()) {
+  <p-message severity="error" icon="pi pi-exclamation-circle">Impossible de charger tes données.</p-message>
+} @else if (drinks() && biometrics() && consumptions()) {
+  <div class="layout">
+    <app-bac-summary class="bac" [consumptions]="consumptions()!" [biometrics]="biometrics()!" [now]="now()" />
+
+    <section class="card add" aria-labelledby="add-title">
+      <div class="card-header">
+        <span class="card-icon" aria-hidden="true"><i class="pi pi-plus"></i></span>
+        <div>
+          <h2 id="add-title">Ajouter une boisson</h2>
+          <p>Touche ce que tu viens de boire.</p>
+        </div>
+      </div>
+      <app-drink-picker [drinks]="drinks()!" (pick)="openDialog($event)" />
+    </section>
+
+    <app-consumption-list class="history" [consumptions]="lastDay()" [now]="now()" (remove)="confirmDelete($event)" />
+  </div>
+} @else {
+  <div class="layout" aria-hidden="true">
+    <p-skeleton class="bac" height="20rem" borderRadius="1.25rem" />
+    <p-skeleton class="add" height="12rem" borderRadius="1.25rem" />
+    <p-skeleton class="history" height="16rem" borderRadius="1.25rem" />
+  </div>
+}
+
+<app-consumption-dialog [(visible)]="dialogVisible" [drink]="selectedDrink()" [saving]="saving()" (add)="add($event)" />
+
+<p-confirmdialog [style]="{ width: '24rem' }" [breakpoints]="{ '575px': 'calc(100vw - 2rem)' }" />
+<p-toast position="top-center" [breakpoints]="{ '575px': { width: 'calc(100vw - 2rem)' } }" />

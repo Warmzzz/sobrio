@@ -1,0 +1,11 @@
+<ul>
+  @for (drink of drinks(); track drink.id) {
+    <li>
+      <button type="button" (click)="pick.emit(drink)">
+        <span class="name">{{ drink.name }}</span>
+        <span class="details">{{ formatNumber(drink.volumeMl) }} ml · {{ formatNumber(drink.alcoholPercentage) }} %</span>
+        <i class="pi pi-plus" aria-hidden="true"></i>
+      </button>
+    </li>
+  }
+</ul>

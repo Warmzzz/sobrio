@@ -1,0 +1,53 @@
+<section class="card" aria-labelledby="history-title">
+  <div class="card-header">
+    <span class="card-icon" aria-hidden="true"><i class="pi pi-history"></i></span>
+    <div>
+      <h2 id="history-title">Dernières 24 heures</h2>
+      <p>Ce que tu as bu, du plus récent au plus ancien.</p>
+    </div>
+  </div>
+
+  <dl class="stats">
+    <div>
+      <dt>Boissons</dt>
+      <dd>{{ consumptions().length }}</dd>
+    </div>
+    <div>
+      <dt>Verres standard</dt>
+      <dd>{{ formatNumber(standardDrinks()) }}</dd>
+    </div>
+    <div>
+      <dt>Alcool pur</dt>
+      <dd>{{ formatNumber(totalGrams()) }} g</dd>
+    </div>
+  </dl>
+
+  @if (consumptions().length === 0) {
+    <p class="empty">Rien de consommé ces dernières 24 heures.</p>
+  } @else {
+    <ul>
+      @for (consumption of consumptions(); track consumption.id) {
+        <li>
+          <time [attr.datetime]="consumption.consumedAt.toISOString()">{{ time(consumption) }}</time>
+          <div class="info">
+            <span class="name">{{ consumption.drink.name }}</span>
+            <span class="details">
+              {{ formatNumber(consumption.consumedVolumeMl) }} ml ·
+              {{ formatNumber(consumption.drink.alcoholPercentage) }} %
+            </span>
+          </div>
+          <p-button
+            icon="pi pi-trash"
+            [rounded]="true"
+            [text]="true"
+            severity="danger"
+            [ariaLabel]="'Supprimer ' + consumption.drink.name + ' de ' + time(consumption)"
+            (onClick)="remove.emit(consumption)"
+          />
+        </li>
+      }
+    </ul>
+  }
+
+  <p class="note">Un verre standard correspond à 10 g d'alcool pur.</p>
+</section>

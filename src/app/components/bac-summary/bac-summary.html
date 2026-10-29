@@ -1,0 +1,56 @@
+<section class="card" aria-labelledby="bac-title">
+  <div class="card-header">
+    <span class="card-icon" aria-hidden="true"><i class="pi pi-chart-line"></i></span>
+    <div>
+      <h2 id="bac-title">Taux d'alcool estimé</h2>
+      <p>Mis à jour chaque minute.</p>
+    </div>
+  </div>
+
+  <div class="value" [class.over]="mustNotDrive()">
+    <span class="number">{{ formattedConcentration() }}</span>
+    <span class="status">
+      @if (mustNotDrive()) {
+        <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+      }
+      {{ status() }}
+    </span>
+  </div>
+
+  <div class="gauge" aria-hidden="true">
+    <div class="track">
+      <div class="fill" [class.over]="isOverLimit()" [style.width.%]="gaugePercent()"></div>
+    </div>
+    <div class="marks">
+      <span>0</span>
+      <span class="mark" style="left: 20%">0,2</span>
+      <span class="mark" style="left: 50%">0,5</span>
+      <span class="end">1 g/L</span>
+    </div>
+  </div>
+
+  @if (isAbsorbing()) {
+    <p-message severity="warn" size="small" icon="pi pi-arrow-up-right">
+      De l'alcool est encore en cours d'absorption : ton taux peut encore monter.
+    </p-message>
+  }
+
+  <dl class="thresholds">
+    @for (threshold of thresholds(); track threshold.label) {
+      <div class="threshold" [class.reached]="threshold.reached">
+        <dt>{{ threshold.label }}</dt>
+        <dd>
+          @if (threshold.reached) {
+            <i class="pi pi-check-circle" aria-hidden="true"></i>
+          }
+          {{ threshold.text }}
+        </dd>
+      </div>
+    }
+  </dl>
+
+  <p class="disclaimer">
+    Estimation indicative pour un profil {{ profile() }}
+    (<a routerLink="/settings">modifier</a>). Ne remplace pas un éthylotest.
+  </p>
+</section>

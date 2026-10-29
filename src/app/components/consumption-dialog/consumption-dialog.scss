@@ -1,0 +1,96 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hint {
+  margin: 0;
+  color: var(--p-text-muted-color);
+  font-size: 0.875rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+label,
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--p-text-muted-color);
+}
+
+legend {
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.chip {
+  display: grid;
+  place-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.75rem;
+  color: var(--p-text-color);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    transform 0.1s ease-out;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:has(input:checked) {
+    border-color: var(--p-primary-color);
+    background: var(--p-primary-color);
+    color: var(--p-primary-contrast-color);
+    font-weight: 600;
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--p-text-color);
+    outline-offset: 2px;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  .chips {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .chip {
+    font-size: 0.8125rem;
+  }
+}

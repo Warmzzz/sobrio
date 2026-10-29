@@ -6,6 +6,7 @@ const biometrics: Biometrics = { sex: 'male', age: 25, weightKg: 70 };
 const start = new Date('2026-01-01T20:00:00Z');
 const at = (minutes: number) => new Date(start.getTime() + minutes * 60_000);
 const beer = (minutes: number, volumeMl = 500): ConsumedDrink => ({
+  id: `beer-${minutes}`,
   drink: { id: 'beer', name: 'Bière', volumeMl, alcoholPercentage: 5, isCustom: false },
   consumedVolumeMl: volumeMl,
   consumedAt: at(minutes),
