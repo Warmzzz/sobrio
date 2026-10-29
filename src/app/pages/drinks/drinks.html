@@ -1,0 +1,71 @@
+<header class="page-header">
+  <div>
+    <h1>Boissons</h1>
+    <p>Crée tes propres boissons pour les retrouver plus vite.</p>
+  </div>
+  <p-button label="Nouvelle boisson" icon="pi pi-plus" (onClick)="openCreate()" />
+</header>
+
+@if (loadFailed()) {
+  <p-message severity="error" icon="pi pi-exclamation-circle">Impossible de charger les boissons.</p-message>
+} @else {
+  <div class="sections">
+    <section class="card" aria-labelledby="custom-drinks-title">
+      <div class="card-header">
+        <span class="card-icon" aria-hidden="true"><i class="pi pi-star"></i></span>
+        <div>
+          <h2 id="custom-drinks-title">Mes boissons</h2>
+          <p>Modifiables et supprimables.</p>
+        </div>
+      </div>
+
+      @if (drinks() === null) {
+        <div class="skeleton" aria-hidden="true">
+          <p-skeleton height="3rem" />
+          <p-skeleton height="3rem" />
+        </div>
+      } @else if (customDrinks().length === 0) {
+        <div class="empty">
+          <p>Tu n'as pas encore créé de boisson.</p>
+          <p-button label="Créer ma première boisson" icon="pi pi-plus" [outlined]="true" (onClick)="openCreate()" />
+        </div>
+      } @else {
+        <ul>
+          @for (drink of customDrinks(); track drink.id) {
+            <li>
+              <app-drink-item [drink]="drink" (edit)="openEdit($event)" (remove)="confirmDelete($event)" />
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    <section class="card" aria-labelledby="default-drinks-title">
+      <div class="card-header">
+        <span class="card-icon default" aria-hidden="true"><i class="pi pi-lock"></i></span>
+        <div>
+          <h2 id="default-drinks-title">Boissons par défaut</h2>
+          <p>Fournies avec Sobrio, non modifiables.</p>
+        </div>
+      </div>
+
+      @if (drinks() === null) {
+        <div class="skeleton" aria-hidden="true">
+          <p-skeleton height="3rem" />
+          <p-skeleton height="3rem" />
+        </div>
+      } @else {
+        <ul>
+          @for (drink of defaultDrinks(); track drink.id) {
+            <li><app-drink-item [drink]="drink" /></li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+}
+
+<app-drink-dialog [(visible)]="dialogVisible" [drink]="editedDrink()" [saving]="saving()" (save)="save($event)" />
+
+<p-confirmdialog [style]="{ width: '24rem' }" [breakpoints]="{ '575px': 'calc(100vw - 2rem)' }" />
+<p-toast position="top-center" [breakpoints]="{ '575px': { width: 'calc(100vw - 2rem)' } }" />

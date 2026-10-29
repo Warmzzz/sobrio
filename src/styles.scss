@@ -2,13 +2,50 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
   background: var(--p-surface-50);
   color: var(--p-text-color);
 }
 
 .app-dark body {
   background: var(--p-surface-950);
+}
+
+// Large text gets tighter tracking and leading (size-specific, never one value)
+h1 {
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+// Theme switch cross-fades instead of flashing (View Transitions)
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+}
+
+// shortcut: kills all motion, not just slides/springs; swap for per-component cross-fades if needed
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
 
 .card {

@@ -2,9 +2,16 @@ nav {
   position: fixed;
   inset: auto 0 0 0;
   z-index: 10;
-  background: var(--p-content-background);
+  // Translucent material: content passes underneath, bright top edge catches the light
+  background: color-mix(in srgb, var(--p-content-background) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
   border-top: 1px solid var(--p-content-border-color);
   padding-bottom: env(safe-area-inset-bottom);
+
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    background: var(--p-content-background);
+    backdrop-filter: none;
+  }
 }
 
 .brand {
@@ -45,6 +52,14 @@ li a {
   height: 2rem;
   border-radius: 1rem;
   font-size: 1.125rem;
+  transition:
+    background-color 0.2s,
+    transform 0.1s ease-out;
+}
+
+// Feedback on press, not on release
+li a:active .icon {
+  transform: scale(0.94);
 }
 
 a.active {

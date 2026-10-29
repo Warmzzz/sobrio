@@ -1,0 +1,78 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="drink() ? 'Modifier la boisson' : 'Nouvelle boisson'"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '28rem' }"
+  [breakpoints]="{ '575px': 'calc(100vw - 2rem)' }"
+>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field">
+      <label for="drink-name">Nom</label>
+      <input
+        pInputText
+        id="drink-name"
+        formControlName="name"
+        maxlength="50"
+        autocomplete="off"
+        placeholder="Ex. IPA (50cl)"
+        [invalid]="isInvalid('name')"
+        [attr.aria-describedby]="isInvalid('name') ? 'drink-name-error' : null"
+        fluid
+      />
+      @if (isInvalid('name')) {
+        <p-message id="drink-name-error" severity="error" size="small" variant="simple">
+          Indique un nom de 50 caractères maximum.
+        </p-message>
+      }
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="drink-volume">Volume</label>
+        <p-inputnumber
+          inputId="drink-volume"
+          formControlName="volumeMl"
+          suffix=" ml"
+          [min]="1"
+          [max]="5000"
+          [useGrouping]="false"
+          [invalid]="isInvalid('volumeMl')"
+          [ariaDescribedBy]="isInvalid('volumeMl') ? 'drink-volume-error' : undefined"
+          fluid></p-inputnumber>
+        @if (isInvalid('volumeMl')) {
+          <p-message id="drink-volume-error" severity="error" size="small" variant="simple">
+            Entre 1 et 5000 ml.
+          </p-message>
+        }
+      </div>
+
+      <div class="field">
+        <label for="drink-percentage">Degré d'alcool</label>
+        <p-inputnumber
+          inputId="drink-percentage"
+          formControlName="alcoholPercentage"
+          suffix=" %"
+          locale="fr-FR"
+          [min]="0"
+          [max]="100"
+          [maxFractionDigits]="1"
+          [invalid]="isInvalid('alcoholPercentage')"
+          [ariaDescribedBy]="isInvalid('alcoholPercentage') ? 'drink-percentage-error' : undefined"
+          fluid></p-inputnumber>
+        @if (isInvalid('alcoholPercentage')) {
+          <p-message id="drink-percentage-error" severity="error" size="small" variant="simple">
+            Entre 0 et 100 %.
+          </p-message>
+        }
+      </div>
+    </div>
+
+    <div class="actions">
+      <p-button label="Annuler" severity="secondary" [text]="true" (onClick)="visible.set(false)" />
+      <p-button type="submit" label="Enregistrer" icon="pi pi-check" [loading]="saving()" />
+    </div>
+  </form>
+</p-dialog>

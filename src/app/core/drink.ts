@@ -7,6 +7,8 @@ export interface Drink {
   isCustom: boolean;
 }
 
+export type DrinkInput = Pick<Drink, 'name' | 'volumeMl' | 'alcoholPercentage'>;
+
 export interface ConsumedDrink {
   drink: Drink;
   consumedVolumeMl: number;

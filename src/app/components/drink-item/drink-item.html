@@ -1,0 +1,27 @@
+<div class="info">
+  <span class="name">{{ drink().name }}</span>
+  <span class="details">{{ details() }}</span>
+</div>
+
+@if (drink().isCustom) {
+  <div class="actions">
+    <p-button
+      icon="pi pi-pencil"
+      [rounded]="true"
+      [text]="true"
+      severity="secondary"
+      [ariaLabel]="'Modifier ' + drink().name"
+      (onClick)="edit.emit(drink())"
+    />
+    <p-button
+      icon="pi pi-trash"
+      [rounded]="true"
+      [text]="true"
+      severity="danger"
+      [ariaLabel]="'Supprimer ' + drink().name"
+      (onClick)="remove.emit(drink())"
+    />
+  </div>
+} @else {
+  <p-tag value="Par défaut" icon="pi pi-lock" severity="secondary" [rounded]="true" />
+}

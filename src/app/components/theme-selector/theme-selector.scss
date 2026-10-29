@@ -36,10 +36,18 @@ fieldset {
   border: 2px solid var(--p-content-border-color);
   border-radius: 1rem;
   cursor: pointer;
-  transition: border-color 0.15s;
+  transition:
+    border-color 0.15s,
+    transform 0.1s ease-out;
 
-  &:hover {
-    border-color: var(--p-text-muted-color);
+  &:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--p-text-muted-color);
+    }
   }
 
   &:has(input:checked) {

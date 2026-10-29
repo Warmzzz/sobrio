@@ -12,6 +12,7 @@ import { NavItem } from './nav-item';
 export class NavMenu {
   protected readonly items: NavItem[] = [
     { label: 'Accueil', icon: 'pi-home', link: '/' },
+    { label: 'Boissons', icon: 'pi-filter', link: '/drinks' },
     { label: 'Paramètres', icon: 'pi-cog', link: '/settings' },
   ];
 }

@@ -36,6 +36,14 @@ export class ThemeService {
       theme === 'dark' ||
       (theme === 'system' && this.document.defaultView?.matchMedia('(prefers-color-scheme: dark)').matches);
 
-    this.document.documentElement.classList.toggle('app-dark', isDark);
+    const apply = () => this.document.documentElement.classList.toggle('app-dark', isDark);
+    const reduceMotion = this.document.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Cross-fade the whole page so dark↔light never causes an abrupt brightness jump
+    if (this.document.startViewTransition && !reduceMotion) {
+      this.document.startViewTransition(apply);
+    } else {
+      apply();
+    }
   }
 }
