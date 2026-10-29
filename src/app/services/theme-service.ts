@@ -20,7 +20,7 @@ export class ThemeService {
       ?.matchMedia('(prefers-color-scheme: dark)')
       .addEventListener('change', () => {
         if (this.theme() === 'system') {
-          this.applyTheme('system');
+          this.applyTheme('system', true);
         }
       });
   }
@@ -28,10 +28,10 @@ export class ThemeService {
   public setTheme(theme: Theme): void {
     this._theme.set(theme);
     this.storage.save(theme);
-    this.applyTheme(theme);
+    this.applyTheme(theme, true);
   }
 
-  private applyTheme(theme: Theme) {
+  private applyTheme(theme: Theme, animate = false) {
     const isDark =
       theme === 'dark' ||
       (theme === 'system' && this.document.defaultView?.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -40,8 +40,10 @@ export class ThemeService {
     const reduceMotion = this.document.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Cross-fade the whole page so dark↔light never causes an abrupt brightness jump
-    if (this.document.startViewTransition && !reduceMotion) {
-      this.document.startViewTransition(apply);
+    if (animate && this.document.startViewTransition && !reduceMotion) {
+      const transition = this.document.startViewTransition(apply);
+      transition.ready.catch(() => {});
+      transition.finished.catch(() => {});
     } else {
       apply();
     }

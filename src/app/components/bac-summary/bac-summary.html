@@ -23,8 +23,9 @@
     </div>
     <div class="marks">
       <span>0</span>
-      <span class="mark" style="left: 20%">0,2</span>
-      <span class="mark" style="left: 50%">0,5</span>
+      @for (mark of marks(); track mark.label) {
+        <span class="mark" [style.left.%]="mark.percent">{{ mark.label }}</span>
+      }
       <span class="end">1 g/L</span>
     </div>
   </div>
@@ -50,7 +51,7 @@
   </dl>
 
   <p class="disclaimer">
-    Estimation indicative pour un profil {{ profile() }}
+    Estimation indicative pour un profil {{ profile() }}, limite de {{ legislation().label }}
     (<a routerLink="/settings">modifier</a>). Ne remplace pas un éthylotest.
   </p>
 </section>

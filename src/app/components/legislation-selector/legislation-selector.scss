@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.card-icon {
+  --icon-background: var(--p-tertiary-400);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--p-text-muted-color);
+}
+
+.limit {
+  margin: 0;
+  color: var(--p-text-muted-color);
+  font-size: 0.875rem;
+
+  strong {
+    color: var(--p-text-color);
+    font-variant-numeric: tabular-nums;
+  }
+}

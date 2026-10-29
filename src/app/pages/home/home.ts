@@ -9,6 +9,7 @@ import { ConsumptionDialog, ConsumptionInput } from '../../components/consumptio
 import { ConsumptionList } from '../../components/consumption-list/consumption-list';
 import { DrinkPicker } from '../../components/drink-picker/drink-picker';
 import { ConsumedDrink, Drink } from '../../core/drink';
+import { getLegislation, LegislationInfo } from '../../core/legislation';
 import { Biometrics } from '../../core/preferences';
 import { ConsumptionsService } from '../../services/consumptions-service';
 import { DrinksService } from '../../services/drinks-service';
@@ -48,6 +49,7 @@ export class Home implements OnInit {
 
   protected readonly drinks = signal<Drink[] | null>(null);
   protected readonly biometrics = signal<Biometrics | null>(null);
+  protected readonly legislation = signal<LegislationInfo | null>(null);
   protected readonly consumptions = signal<ConsumedDrink[] | null>(null);
   protected readonly loadFailed = signal(false);
 
@@ -67,14 +69,16 @@ export class Home implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      const [drinks, biometrics] = await Promise.all([
+      const [drinks, biometrics, legislation] = await Promise.all([
         this.drinksService.getAll(),
         this.preferencesService.getBiometrics(),
+        this.preferencesService.getLegislation(),
         this.loadConsumptions(),
       ]);
 
       this.drinks.set(drinks);
       this.biometrics.set(biometrics);
+      this.legislation.set(getLegislation(legislation));
     } catch {
       this.loadFailed.set(true);
     }

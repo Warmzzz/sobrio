@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppDatabase } from '../infrastructures/app.database';
-import { Biometrics, createDefaultPreferences, UserPreferences } from '../core/preferences';
+import { LEGISLATIONS } from '../core/legislation';
+import { Biometrics, createDefaultPreferences, Legislation, UserPreferences } from '../core/preferences';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,23 @@ export class PreferencesService {
     await this.db.preferences.put(preferences);
   }
 
+  public async getLegislation(): Promise<Legislation> {
+    const preferences = await this.getPreferences();
+    return preferences.legislation;
+  }
+
+  public async setLegislation(legislation: Legislation): Promise<void> {
+    if (!LEGISLATIONS.some((item) => item.value === legislation)) {
+      throw new Error(`Invalid legislation: ${legislation}`);
+    }
+
+    const preferences = await this.getPreferences();
+    preferences.legislation = legislation;
+    await this.db.preferences.put(preferences);
+  }
+
   private async getPreferences(): Promise<UserPreferences> {
     const preferences = await this.db.preferences.get("current");
-    return preferences || createDefaultPreferences();
+    return { ...createDefaultPreferences(), ...preferences };
   }
 }

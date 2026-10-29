@@ -5,9 +5,9 @@
 
 @if (loadFailed()) {
   <p-message severity="error" icon="pi pi-exclamation-circle">Impossible de charger tes données.</p-message>
-} @else if (drinks() && biometrics() && consumptions()) {
+} @else if (drinks() && biometrics() && legislation() && consumptions()) {
   <div class="layout">
-    <app-bac-summary class="bac" [consumptions]="consumptions()!" [biometrics]="biometrics()!" [now]="now()" />
+    <app-bac-summary class="bac" [consumptions]="consumptions()!" [biometrics]="biometrics()!" [legislation]="legislation()!" [now]="now()" />
 
     <section class="card add" aria-labelledby="add-title">
       <div class="card-header">

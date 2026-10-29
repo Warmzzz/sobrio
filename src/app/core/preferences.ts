@@ -11,9 +11,12 @@ export interface Biometrics {
   weightKg: number;
 }
 
+export type Legislation = "be" | "fr" | "ch" | "ca";
+
 export interface UserPreferences {
   id: string;
   biometrics: Biometrics;
+  legislation: Legislation;
 }
 
 export function createDefaultPreferences(): UserPreferences {
@@ -24,5 +27,6 @@ export function createDefaultPreferences(): UserPreferences {
       age: 25,
       weightKg: 70,
     },
+    legislation: "be",
   };
 }

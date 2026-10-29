@@ -3,11 +3,11 @@ import { RouterLink } from '@angular/router';
 import { Message } from 'primeng/message';
 import { AlcoholCalculator } from '../../core/alcohol-calculator';
 import { ConsumedDrink } from '../../core/drink';
+import { LegislationInfo } from '../../core/legislation';
 import { Biometrics } from '../../core/preferences';
 import { formatConcentration, formatNumber, formatTime } from '../../utils/format';
 
-const LEGAL_LIMIT = 0.5;
-const THRESHOLDS = [0.5, 0.2];
+const LOW_THRESHOLD = 0.2;
 const GAUGE_MAX = 1;
 const HORIZON_MS = 48 * 3_600_000;
 const SOBER_BELOW = 0.01;
@@ -30,6 +30,13 @@ export class BacSummary {
   public readonly consumptions = input.required<ConsumedDrink[]>();
   public readonly biometrics = input.required<Biometrics>();
   public readonly now = input.required<number>();
+  public readonly legislation = input.required<LegislationInfo>();
+
+  protected readonly limit = computed(() => this.legislation().drivingLimitGPerL);
+  protected readonly formattedLimit = computed(() => formatNumber(this.limit()));
+  protected readonly marks = computed(() =>
+    [LOW_THRESHOLD, this.limit()].map((value) => ({ label: formatNumber(value), percent: (value / GAUGE_MAX) * 100 })),
+  );
 
   private readonly calculator = computed(() => new AlcoholCalculator(this.biometrics()));
   private readonly estimate = computed(() =>
@@ -41,17 +48,17 @@ export class BacSummary {
   protected readonly isAbsorbing = computed(() => this.estimate().unabsorbedEthanolGrams >= ABSORBING_GRAMS);
   protected readonly gaugePercent = computed(() => (Math.min(this.concentration(), GAUGE_MAX) / GAUGE_MAX) * 100);
 
-  protected readonly thresholds = computed(() => THRESHOLDS.map((threshold) => this.getThresholdStatus(threshold)));
+  protected readonly thresholds = computed(() => [this.limit(), LOW_THRESHOLD].map((threshold) => this.getThresholdStatus(threshold)));
 
-  protected readonly isOverLimit = computed(() => this.concentration() >= LEGAL_LIMIT);
+  protected readonly isOverLimit = computed(() => this.concentration() >= this.limit());
   protected readonly willExceedLimit = computed(() => !this.isOverLimit() && !this.thresholds()[0].reached);
   protected readonly mustNotDrive = computed(() => this.isOverLimit() || this.willExceedLimit());
 
   protected readonly status = computed(() => {
     if (this.isOverLimit()) return 'Au-dessus de la limite légale : ne prends pas le volant';
-    if (this.willExceedLimit()) return 'Ton taux va dépasser 0,5 g/L : ne prends pas le volant';
+    if (this.willExceedLimit()) return `Ton taux va dépasser ${this.formattedLimit()} g/L : ne prends pas le volant`;
     if (this.concentration() < SOBER_BELOW) return 'Aucun alcool estimé';
-    return 'Sous la limite légale de 0,5 g/L';
+    return `Sous la limite légale de ${this.formattedLimit()} g/L`;
   });
 
   protected readonly profile = computed(() => {

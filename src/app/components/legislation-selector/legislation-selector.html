@@ -1,0 +1,35 @@
+<section class="card" aria-labelledby="legislation-title">
+  <div class="card-header">
+    <span class="card-icon" aria-hidden="true"><i class="pi pi-car"></i></span>
+    <div>
+      <h2 id="legislation-title">Législation</h2>
+      <p>Détermine la limite pour conduire.</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="legislation">Pays</label>
+    <p-select
+      inputId="legislation"
+      [formControl]="legislation"
+      [options]="options"
+      optionLabel="label"
+      optionValue="value"
+      fluid
+    />
+    <p class="limit">Limite légale pour conduire : <strong>{{ limit() }} g/L</strong></p>
+  </div>
+
+  <div aria-live="polite">
+    @switch (status()) {
+      @case ('saved') {
+        <p-message severity="success" size="small" icon="pi pi-check-circle">Législation enregistrée</p-message>
+      }
+      @case ('error') {
+        <p-message severity="error" size="small" icon="pi pi-exclamation-circle">
+          Impossible d'enregistrer. Réessaie.
+        </p-message>
+      }
+    }
+  </div>
+</section>
