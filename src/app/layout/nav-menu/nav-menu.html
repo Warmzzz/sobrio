@@ -1,0 +1,18 @@
+<nav aria-label="Navigation principale">
+  <a class="brand" routerLink="/">Sobrio</a>
+  <ul>
+    @for (item of items; track item.link) {
+      <li>
+        <a
+          [routerLink]="item.link"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          [routerLinkActiveOptions]="{ exact: item.link === '/' }"
+        >
+          <span class="icon" aria-hidden="true"><i [class]="'pi ' + item.icon"></i></span>
+          <span>{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

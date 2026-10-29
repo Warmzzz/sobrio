@@ -15,6 +15,14 @@ export class ThemeService {
 
   constructor() {
     this.applyTheme(this.theme());
+
+    this.document.defaultView
+      ?.matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', () => {
+        if (this.theme() === 'system') {
+          this.applyTheme('system');
+        }
+      });
   }
 
   public setTheme(theme: Theme): void {

@@ -46,6 +46,11 @@ export const SobrioPreset = definePreset(Aura, {
       950: '#003940',
     },
     colorScheme: {
+      light: {
+        primary: {
+          contrastColor: '#0f1112',
+        },
+      },
       dark: {
         surface: {
           0: '#ffffff',

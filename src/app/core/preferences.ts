@@ -1,6 +1,10 @@
 
 export type Sex = 'male' | 'female';
 
+export function isSex(value: any): value is Sex {
+  return value === 'male' || value === 'female';
+}
+
 export interface Biometrics {
   sex: Sex;
   age: number;

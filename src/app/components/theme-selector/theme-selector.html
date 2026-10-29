@@ -1,0 +1,30 @@
+<section class="card" aria-labelledby="theme-title">
+  <div class="card-header">
+    <span class="card-icon" aria-hidden="true"><i class="pi pi-palette"></i></span>
+    <div>
+      <h2 id="theme-title">Apparence</h2>
+      <p>Choisis le thème de l'application.</p>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend class="sr-only">Thème</legend>
+    <div class="options">
+      @for (option of options; track option.value) {
+        <label class="option">
+          <input type="radio" name="theme" [value]="option.value" [formControl]="theme" />
+          <span class="preview" [class]="'preview-' + option.value" aria-hidden="true">
+            <span class="preview-bar"></span>
+            <span class="preview-line"></span>
+            <span class="preview-line short"></span>
+          </span>
+          <span class="check" aria-hidden="true"><i class="pi pi-check"></i></span>
+          <span class="option-label">
+            <i [class]="option.icon" aria-hidden="true"></i>
+            {{ option.label }}
+          </span>
+        </label>
+      }
+    </div>
+  </fieldset>
+</section>

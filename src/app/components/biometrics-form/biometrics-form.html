@@ -1,0 +1,94 @@
+<section class="card" aria-labelledby="biometrics-title">
+  <div class="card-header">
+    <span class="card-icon" aria-hidden="true"><i class="pi pi-user"></i></span>
+    <div>
+      <h2 id="biometrics-title">Profil</h2>
+      <p>Utilisé pour estimer ton alcoolémie.</p>
+    </div>
+  </div>
+
+  @if (loaded()) {
+    @if (loadFailed()) {
+      <p-message severity="warn" size="small" icon="pi pi-exclamation-triangle">
+        Impossible de charger ton profil : les valeurs par défaut sont affichées.
+      </p-message>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <span id="sex-label" class="label">Sexe</span>
+        <p-selectbutton
+          formControlName="sex"
+          [options]="sexOptions"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+          ariaLabelledBy="sex-label"
+          [invalid]="isInvalid('sex')"
+          fluid
+        />
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="age">Âge</label>
+          <p-inputnumber
+            inputId="age"
+            formControlName="age"
+            suffix=" ans"
+            [min]="12"
+            [max]="100"
+            [useGrouping]="false"
+            [invalid]="isInvalid('age')"
+            [ariaDescribedBy]="isInvalid('age') ? 'age-error' : undefined"
+            fluid></p-inputnumber>
+          @if (isInvalid('age')) {
+            <p-message id="age-error" severity="error" size="small" variant="simple">
+              Indique un âge entre 12 et 100 ans.
+            </p-message>
+          }
+        </div>
+
+        <div class="field">
+          <label for="weight">Poids</label>
+          <p-inputnumber
+            inputId="weight"
+            formControlName="weightKg"
+            suffix=" kg"
+            locale="fr-FR"
+            [min]="40"
+            [max]="200"
+            [maxFractionDigits]="1"
+            [invalid]="isInvalid('weightKg')"
+            [ariaDescribedBy]="isInvalid('weightKg') ? 'weight-error' : undefined"
+            fluid></p-inputnumber>
+          @if (isInvalid('weightKg')) {
+            <p-message id="weight-error" severity="error" size="small" variant="simple">
+              Indique un poids entre 40 et 200 kg.
+            </p-message>
+          }
+        </div>
+      </div>
+
+      <div class="actions">
+        @switch (status()) {
+          @case ('saved') {
+            <p-message severity="success" size="small" icon="pi pi-check-circle">Profil enregistré</p-message>
+          }
+          @case ('error') {
+            <p-message severity="error" size="small" icon="pi pi-exclamation-circle">
+              Impossible d'enregistrer. Réessaie.
+            </p-message>
+          }
+        }
+        <p-button type="submit" label="Enregistrer" icon="pi pi-check" [loading]="saving()" />
+      </div>
+    </form>
+  } @else {
+    <div class="skeleton" aria-hidden="true">
+      <p-skeleton height="2.75rem" />
+      <p-skeleton height="2.75rem" />
+      <p-skeleton height="2.75rem" />
+    </div>
+  }
+</section>

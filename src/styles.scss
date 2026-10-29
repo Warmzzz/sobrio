@@ -1,7 +1,56 @@
+@import 'primeicons/primeicons.css';
 
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
+  background: var(--p-surface-50);
+  color: var(--p-text-color);
+}
+
+.app-dark body {
   background: var(--p-surface-950);
-  color: var(--p-surface-0);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 1.25rem;
+  background: var(--p-content-background);
+
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0.125rem 0 0;
+    color: var(--p-text-muted-color);
+    font-size: 0.875rem;
+  }
+}
+
+.card-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  font-size: 1.125rem;
+  background: var(--icon-background, var(--p-primary-color));
+  color: var(--p-primary-contrast-color);
 }
