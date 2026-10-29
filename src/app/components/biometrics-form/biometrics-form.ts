@@ -6,6 +6,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { Message } from 'primeng/message';
 import { SelectButton } from 'primeng/selectbutton';
 import { Skeleton } from 'primeng/skeleton';
+import { MINIMUM_AGE } from '../../core/legal';
 import { Sex } from '../../core/preferences';
 import { PreferencesService } from '../../services/preferences-service';
 import { sexValidator } from '../../validators/sex-validator';
@@ -38,7 +39,7 @@ export class BiometricsForm implements OnInit {
       validators: [Validators.required, sexValidator()],
     }),
     age: new FormControl<number | null>(25, {
-      validators: [Validators.required, Validators.min(12), Validators.max(100)],
+      validators: [Validators.required, Validators.min(MINIMUM_AGE), Validators.max(100)],
     }),
     weightKg: new FormControl<number | null>(70, {
       validators: [Validators.required, Validators.min(40), Validators.max(200)],

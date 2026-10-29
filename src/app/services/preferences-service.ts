@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppDatabase } from '../infrastructures/app.database';
+import { hasAcceptedCurrentTerms, LEGAL_TERMS_VERSION, MINIMUM_AGE } from '../core/legal';
 import { LEGISLATIONS } from '../core/legislation';
 import { Biometrics, createDefaultPreferences, Legislation, UserPreferences } from '../core/preferences';
 
@@ -15,8 +16,8 @@ export class PreferencesService {
   }
 
   public async setBiometrics(biometrics: Biometrics): Promise<void> {
-    if(biometrics.age < 12 || biometrics.weightKg < 40) {
-      throw new Error('Invalid biometrics: age must be at least 12 and weight must be at least 40 kg.');
+    if(biometrics.age < MINIMUM_AGE || biometrics.weightKg < 40) {
+      throw new Error(`Invalid biometrics: age must be at least ${MINIMUM_AGE} and weight must be at least 40 kg.`);
     }
 
     const preferences = await this.getPreferences();
@@ -36,6 +37,17 @@ export class PreferencesService {
 
     const preferences = await this.getPreferences();
     preferences.legislation = legislation;
+    await this.db.preferences.put(preferences);
+  }
+
+  public async hasAcceptedLegalTerms(): Promise<boolean> {
+    const preferences = await this.getPreferences();
+    return hasAcceptedCurrentTerms(preferences.legalAcceptance);
+  }
+
+  public async acceptLegalTerms(): Promise<void> {
+    const preferences = await this.getPreferences();
+    preferences.legalAcceptance = { version: LEGAL_TERMS_VERSION, acceptedAt: new Date() };
     await this.db.preferences.put(preferences);
   }
 

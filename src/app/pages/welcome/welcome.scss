@@ -1,0 +1,91 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.page-header {
+  h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0.375rem 0 0;
+    color: var(--p-text-muted-color);
+  }
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  i {
+    flex-shrink: 0;
+    margin-top: 0.1875rem;
+    color: var(--p-primary-color);
+  }
+}
+
+.more {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+a {
+  color: var(--p-text-color);
+  text-underline-offset: 2px;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+
+  input {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.125rem 0 0;
+    accent-color: var(--p-primary-color);
+    cursor: pointer;
+  }
+
+  input:focus-visible {
+    outline: 2px solid var(--p-text-color);
+    outline-offset: 2px;
+  }
+}
+
+p-button ::ng-deep button {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  p-button {
+    align-self: flex-end;
+  }
+
+  p-button ::ng-deep button {
+    width: auto;
+  }
+}

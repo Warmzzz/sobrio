@@ -1,0 +1,100 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.page-header {
+  h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0.375rem 0 0;
+    color: var(--p-text-muted-color);
+  }
+}
+
+.toc {
+  gap: 0.5rem;
+}
+
+section {
+  gap: 0.75rem;
+  scroll-margin-top: 5rem;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding-left: 1.25rem;
+}
+
+a {
+  color: var(--p-text-color);
+  text-underline-offset: 2px;
+}
+
+.highlight {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--p-tertiary-400);
+  border-radius: 0.875rem;
+}
+
+.muted {
+  color: var(--p-text-muted-color);
+  font-size: 0.875rem;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+  margin: 0;
+
+  dt {
+    color: var(--p-text-muted-color);
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.back {
+  margin: 0 0 1rem;
+}
+
+@media (max-width: 479px) {
+  dl {
+    grid-template-columns: 1fr;
+    gap: 0.125rem;
+
+    dd {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

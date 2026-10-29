@@ -9,3 +9,18 @@ footer {
 p {
   margin: 0.25rem 0;
 }
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  margin: 0.75rem 0;
+}
+
+a {
+  display: inline-block;
+  padding: 0.25rem 0;
+  color: var(--p-text-muted-color);
+  text-underline-offset: 2px;
+}

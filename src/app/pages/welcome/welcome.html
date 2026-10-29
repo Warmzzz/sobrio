@@ -1,0 +1,84 @@
+<header class="page-header">
+  <h1>Bienvenue sur Sobrio</h1>
+  <p>Avant de commencer, lis attentivement ces points importants.</p>
+</header>
+
+<section class="card" aria-labelledby="essentials-title">
+  <h2 id="essentials-title">L'essentiel</h2>
+  <ul class="points">
+    <li>
+      <i class="pi pi-calculator" aria-hidden="true"></i>
+      <span>
+        Sobrio calcule une <strong>estimation théorique</strong>, pas une mesure. Ton taux réel peut être
+        <strong>nettement plus élevé</strong> (repas, médicaments, fatigue, santé, erreurs de saisie…).
+      </span>
+    </li>
+    <li>
+      <i class="pi pi-car" aria-hidden="true"></i>
+      <span>
+        <strong>N'utilise jamais Sobrio pour décider si tu peux conduire.</strong> La seule règle sûre : si tu as
+        bu, ne conduis pas.
+      </span>
+    </li>
+    <li>
+      <i class="pi pi-verified" aria-hidden="true"></i>
+      <span>Seul un éthylotest homologué ou un contrôle officiel (éthylomètre, prise de sang) fait foi.</span>
+    </li>
+    <li>
+      <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+      <span>
+        Même sous la limite légale, une conduite altérée par l'alcool peut être sanctionnée, et des limites plus
+        basses s'appliquent à certains conducteurs (jeunes conducteurs, professionnels…).
+      </span>
+    </li>
+    <li>
+      <i class="pi pi-user" aria-hidden="true"></i>
+      <span>Sobrio est réservé aux personnes de {{ minimumAge }} ans ou plus.</span>
+    </li>
+    <li>
+      <i class="pi pi-lock" aria-hidden="true"></i>
+      <span>Tes données restent sur cet appareil : rien n'est envoyé ni partagé.</span>
+    </li>
+  </ul>
+  <p class="more">
+    <a routerLink="/legal" fragment="avertissement">Lire l'avertissement complet</a> ·
+    <a routerLink="/legal" fragment="aide">Numéros d'aide</a>
+  </p>
+</section>
+
+<form class="card" [formGroup]="form" (ngSubmit)="accept()" novalidate aria-labelledby="consent-title">
+  <h2 id="consent-title">Pour continuer</h2>
+
+  <label class="check">
+    <input type="checkbox" formControlName="isAdult" />
+    <span>J'ai {{ minimumAge }} ans ou plus.</span>
+  </label>
+
+  <label class="check">
+    <input type="checkbox" formControlName="understandsEstimate" />
+    <span>
+      J'ai compris que les résultats de Sobrio sont des estimations qui ne permettent pas de savoir si je peux
+      conduire, et que je reste seul responsable de mes décisions.
+    </span>
+  </label>
+
+  <label class="check">
+    <input type="checkbox" formControlName="acceptsTerms" />
+    <span>
+      J'accepte les <a routerLink="/legal" fragment="conditions">conditions d'utilisation</a> et j'ai lu la
+      <a routerLink="/legal" fragment="confidentialite">politique de confidentialité</a>.
+    </span>
+  </label>
+
+  @if (form.touched && form.invalid) {
+    <p-message severity="error" size="small" variant="simple">Coche les trois cases pour continuer.</p-message>
+  }
+
+  @if (saveFailed()) {
+    <p-message severity="error" size="small" icon="pi pi-exclamation-circle">
+      Impossible d'enregistrer ton accord. Réessaie.
+    </p-message>
+  }
+
+  <p-button type="submit" label="Commencer" icon="pi pi-arrow-right" iconPos="right" [loading]="saving()" />
+</form>

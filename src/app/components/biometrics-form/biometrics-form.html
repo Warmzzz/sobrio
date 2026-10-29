@@ -36,7 +36,7 @@
             inputId="age"
             formControlName="age"
             suffix=" ans"
-            [min]="12"
+            [min]="18"
             [max]="100"
             [useGrouping]="false"
             [invalid]="isInvalid('age')"
@@ -44,7 +44,7 @@
             fluid></p-inputnumber>
           @if (isInvalid('age')) {
             <p-message id="age-error" severity="error" size="small" variant="simple">
-              Indique un âge entre 12 et 100 ans.
+              Sobrio est réservé aux personnes majeures : indique un âge entre 18 et 100 ans.
             </p-message>
           }
         </div>

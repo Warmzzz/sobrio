@@ -209,3 +209,17 @@ export class AlcoholCalculator {
     return Math.max(0, concentration + (h / 6) * (k1 + 2 * k2 + 2 * k3 + k4));
   }
 }
+
+const PRUDENT_MALE_DISTRIBUTION_FACTOR = 0.6;
+const PRUDENT_FEMALE_DISTRIBUTION_FACTOR = 0.5;
+const PRUDENT_MAX_ELIMINATION_RATE = 0.12;
+const PRUDENT_ABSORPTION_RATE = 4;
+
+export function createPrudentCalculator(biometrics: Biometrics): AlcoholCalculator {
+  return new AlcoholCalculator(biometrics, {
+    distributionFactor:
+      biometrics.sex === 'male' ? PRUDENT_MALE_DISTRIBUTION_FACTOR : PRUDENT_FEMALE_DISTRIBUTION_FACTOR,
+    eliminationRate: PRUDENT_MAX_ELIMINATION_RATE,
+    absorptionRate: PRUDENT_ABSORPTION_RATE,
+  });
+}

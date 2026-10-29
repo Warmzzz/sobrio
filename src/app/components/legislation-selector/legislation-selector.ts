@@ -26,6 +26,7 @@ export class LegislationSelector implements OnInit {
 
   private readonly selected = signal<Legislation>(this.legislation.value);
   protected readonly limit = computed(() => formatNumber(getLegislation(this.selected()).drivingLimitGPerL));
+  protected readonly stricterLimits = computed(() => getLegislation(this.selected()).stricterLimits);
 
   constructor() {
     this.legislation.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {

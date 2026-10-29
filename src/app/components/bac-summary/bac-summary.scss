@@ -72,6 +72,18 @@
   transform: translateX(-50%);
 }
 
+.estimates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.estimates-title {
+  margin: 0;
+  color: var(--p-text-muted-color);
+  font-size: 0.8125rem;
+}
+
 .thresholds {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -93,16 +105,36 @@
   }
 
   dd {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
     margin: 0;
+    color: var(--p-text-muted-color);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
 
-  &.reached dd i {
-    color: var(--p-primary-color);
+  &.pending dd {
+    color: var(--p-text-color);
+  }
+}
+
+.warning {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--p-tertiary-400);
+  border-radius: 0.875rem;
+
+  i {
+    margin-top: 0.125rem;
+    color: var(--p-tertiary-500);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  strong {
+    display: block;
   }
 }
 

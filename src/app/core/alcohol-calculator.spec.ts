@@ -1,4 +1,4 @@
-import { AlcoholCalculator } from './alcohol-calculator';
+import { AlcoholCalculator, createPrudentCalculator } from './alcohol-calculator';
 import { ConsumedDrink } from './drink';
 import { Biometrics } from './preferences';
 
@@ -57,5 +57,22 @@ describe('AlcoholCalculator', () => {
     expect(() => new AlcoholCalculator({ ...biometrics, weightKg: 0 })).toThrow();
     expect(() => calculator.estimateAt([{ ...beer(0), consumedVolumeMl: -1 }], at(10))).toThrow();
     expect(() => calculator.estimateTimeBelowThreshold([beer(0)], 0, at(60))).toThrow();
+  });
+
+  it('prudent calculator never estimates less alcohol nor an earlier return under a threshold', () => {
+    const drinks = [beer(0), beer(30), beer(60)];
+    const prudent = createPrudentCalculator(biometrics);
+
+    for (const minutes of [15, 45, 90, 180, 300, 480]) {
+      expect(prudent.estimateAt(drinks, at(minutes)).concentrationGPerL).toBeGreaterThanOrEqual(
+        calculator.estimateAt(drinks, at(minutes)).concentrationGPerL,
+      );
+    }
+
+    for (const threshold of [0.5, 0.2, 0.01]) {
+      const standard = calculator.estimateTimeBelowThreshold(drinks, threshold, at(48 * 60));
+      const careful = prudent.estimateTimeBelowThreshold(drinks, threshold, at(48 * 60));
+      expect(careful!.estimatedAt.getTime()).toBeGreaterThan(standard?.estimatedAt.getTime() ?? 0);
+    }
   });
 });

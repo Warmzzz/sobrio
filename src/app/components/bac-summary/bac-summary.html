@@ -3,14 +3,14 @@
     <span class="card-icon" aria-hidden="true"><i class="pi pi-chart-line"></i></span>
     <div>
       <h2 id="bac-title">Taux d'alcool estimé</h2>
-      <p>Mis à jour chaque minute.</p>
+      <p>Estimation prudente, pas une mesure. Mise à jour chaque minute.</p>
     </div>
   </div>
 
-  <div class="value" [class.over]="mustNotDrive()">
+  <div class="value" [class.over]="hasAlcohol()">
     <span class="number">{{ formattedConcentration() }}</span>
     <span class="status">
-      @if (mustNotDrive()) {
+      @if (hasAlcohol()) {
         <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
       }
       {{ status() }}
@@ -23,35 +23,48 @@
     </div>
     <div class="marks">
       <span>0</span>
-      @for (mark of marks(); track mark.label) {
-        <span class="mark" [style.left.%]="mark.percent">{{ mark.label }}</span>
-      }
+      <span class="mark" [style.left.%]="limitPercent()">{{ formattedLimit() }}</span>
       <span class="end">1 g/L</span>
     </div>
   </div>
 
-  @if (isAbsorbing()) {
-    <p-message severity="warn" size="small" icon="pi pi-arrow-up-right">
-      De l'alcool est encore en cours d'absorption : ton taux peut encore monter.
+  @if (isDangerous()) {
+    <p-message severity="error" icon="pi pi-exclamation-circle">
+      Taux très élevé : risque d'intoxication grave. En cas de somnolence, vomissements, respiration lente ou
+      perte de connaissance, appelle immédiatement les secours (112) et ne reste pas seul.
     </p-message>
   }
 
-  <dl class="thresholds">
-    @for (threshold of thresholds(); track threshold.label) {
-      <div class="threshold" [class.reached]="threshold.reached">
-        <dt>{{ threshold.label }}</dt>
-        <dd>
-          @if (threshold.reached) {
-            <i class="pi pi-check-circle" aria-hidden="true"></i>
-          }
-          {{ threshold.text }}
-        </dd>
-      </div>
-    }
-  </dl>
+  @if (isAbsorbing()) {
+    <p-message severity="warn" size="small" icon="pi pi-arrow-up-right">
+      De l'alcool est encore en cours d'absorption : ton taux réel peut être plus élevé et va encore monter.
+    </p-message>
+  }
+
+  <div class="estimates">
+    <p class="estimates-title">Retour estimé, avec une marge de prudence :</p>
+    <dl class="thresholds">
+      @for (threshold of thresholds(); track threshold.label) {
+        <div class="threshold" [class.pending]="threshold.pending">
+          <dt>{{ threshold.label }}</dt>
+          <dd>{{ threshold.text }}</dd>
+        </div>
+      }
+    </dl>
+  </div>
+
+  <div class="warning" role="note">
+    <i class="pi pi-car" aria-hidden="true"></i>
+    <p>
+      <strong>Si tu as bu, ne conduis pas.</strong>
+      Ces heures ne sont pas une autorisation de conduire : ton taux réel peut être plus élevé. Seul un
+      éthylotest homologué ou un contrôle officiel fait foi.
+    </p>
+  </div>
 
   <p class="disclaimer">
-    Estimation indicative pour un profil {{ profile() }}, limite de {{ legislation().label }}
-    (<a routerLink="/settings">modifier</a>). Ne remplace pas un éthylotest.
+    Calcul pour un profil {{ profile() }}, limite générale de {{ legislation().label }}
+    (<a routerLink="/settings">modifier</a>). {{ legislation().stricterLimits }}
+    <a routerLink="/legal" fragment="avertissement">Lire l'avertissement complet</a>.
   </p>
 </section>

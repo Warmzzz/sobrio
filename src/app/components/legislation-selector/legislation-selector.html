@@ -3,7 +3,7 @@
     <span class="card-icon" aria-hidden="true"><i class="pi pi-car"></i></span>
     <div>
       <h2 id="legislation-title">Législation</h2>
-      <p>Détermine la limite pour conduire.</p>
+      <p>Affiche la limite légale générale du pays, à titre d'information.</p>
     </div>
   </div>
 
@@ -17,7 +17,12 @@
       optionValue="value"
       fluid
     />
-    <p class="limit">Limite légale pour conduire : <strong>{{ limit() }} g/L</strong></p>
+    <p class="limit">Limite légale générale : <strong>{{ limit() }} g/L</strong></p>
+    <p class="limit">{{ stricterLimits() }}</p>
+    <p class="limit">
+      Même sous ces limites, une conduite altérée par l'alcool peut être sanctionnée. Ces informations peuvent
+      changer : vérifie la réglementation en vigueur.
+    </p>
   </div>
 
   <div aria-live="polite">

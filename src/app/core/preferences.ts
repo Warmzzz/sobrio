@@ -1,3 +1,4 @@
+import { LegalAcceptance } from './legal';
 
 export type Sex = 'male' | 'female';
 
@@ -17,6 +18,7 @@ export interface UserPreferences {
   id: string;
   biometrics: Biometrics;
   legislation: Legislation;
+  legalAcceptance?: LegalAcceptance;
 }
 
 export function createDefaultPreferences(): UserPreferences {
