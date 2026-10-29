@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { Button } from 'primeng/button';
+import { ConsumptionItem } from '../consumption-item/consumption-item';
 import { ConsumedDrink, getEthanolGrams, STANDARD_DRINK_GRAMS } from '../../core/drink';
 import { formatNumber, formatTime } from '../../utils/format';
 
 @Component({
   selector: 'app-consumption-list',
-  imports: [Button],
+  imports: [ConsumptionItem],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './consumption-list.html',
   styleUrl: './consumption-list.scss',

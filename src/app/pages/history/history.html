@@ -1,0 +1,75 @@
+<header class="page-header">
+  <h1>Historique</h1>
+  <p>Toutes tes consommations, jour par jour.</p>
+</header>
+
+<p-selectbutton
+  class="period"
+  [formControl]="period"
+  [options]="periodOptions"
+  optionLabel="label"
+  optionValue="value"
+  [allowEmpty]="false"
+  ariaLabelledBy="period-label"
+  fluid
+/>
+<span id="period-label" class="sr-only">Période</span>
+
+@if (loadFailed()) {
+  <p-message severity="error" icon="pi pi-exclamation-circle">Impossible de charger ton historique.</p-message>
+} @else if (consumptions() === null) {
+  <div class="days" aria-hidden="true">
+    <p-skeleton height="7rem" borderRadius="1.25rem" />
+    <p-skeleton height="12rem" borderRadius="1.25rem" />
+  </div>
+} @else {
+  <dl class="stats card">
+    <div>
+      <dt>Verres standard</dt>
+      <dd>{{ formatNumber(stats().standardDrinks) }}</dd>
+    </div>
+    <div>
+      <dt>Jours avec alcool</dt>
+      <dd>{{ stats().drinkingDays }}</dd>
+    </div>
+    <div>
+      <dt>Moyenne par jour bu</dt>
+      <dd>{{ formatNumber(stats().averagePerDrinkingDay) }}</dd>
+    </div>
+    <div>
+      <dt>Boissons</dt>
+      <dd>{{ stats().drinks }}</dd>
+    </div>
+  </dl>
+
+  @if (days().length === 0) {
+    <p class="empty">Aucune boisson sur cette période.</p>
+  } @else {
+    <div class="days">
+      @for (day of days(); track day.day.getTime()) {
+        <section class="card day" [attr.aria-label]="dayLabel(day)">
+          <div class="day-header">
+            <h2>{{ dayLabel(day) }}</h2>
+            <span>{{ standardDrinks(day) }} verres std</span>
+          </div>
+          <ul>
+            @for (consumption of day.consumptions; track consumption.id) {
+              <li>
+                <app-consumption-item
+                  [consumption]="consumption"
+                  [time]="formatClock(consumption.consumedAt)"
+                  (remove)="confirmDelete($event)"
+                />
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+  }
+
+  <p class="note">Un verre standard correspond à 10 g d'alcool pur. Les jours sans alcool ne sont pas affichés.</p>
+}
+
+<p-confirmdialog [style]="{ width: '24rem' }" [breakpoints]="{ '575px': 'calc(100vw - 2rem)' }" />
+<p-toast position="top-center" [breakpoints]="{ '575px': { width: 'calc(100vw - 2rem)' } }" />

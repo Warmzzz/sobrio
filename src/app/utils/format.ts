@@ -10,9 +10,13 @@ export function formatConcentration(gPerL: number): string {
   return `${concentrationFormat.format(gPerL)} g/L`;
 }
 
+export function formatClock(date: Date): string {
+  return timeFormat.format(date);
+}
+
 export function formatTime(date: Date, now: Date): string {
   const days = Math.round((startOfDay(date) - startOfDay(now)) / 86_400_000);
-  const time = timeFormat.format(date);
+  const time = formatClock(date);
 
   if (days === 1) return `demain à ${time}`;
   if (days === -1) return `hier à ${time}`;

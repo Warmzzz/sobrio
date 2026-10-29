@@ -1,0 +1,16 @@
+<time [attr.datetime]="consumption().consumedAt.toISOString()">{{ time() }}</time>
+<div class="info">
+  <span class="name">{{ consumption().drink.name }}</span>
+  <span class="details">
+    {{ formatNumber(consumption().consumedVolumeMl) }} ml ·
+    {{ formatNumber(consumption().drink.alcoholPercentage) }} %
+  </span>
+</div>
+<p-button
+  icon="pi pi-trash"
+  [rounded]="true"
+  [text]="true"
+  severity="danger"
+  [ariaLabel]="'Supprimer ' + consumption().drink.name + ' de ' + time()"
+  (onClick)="remove.emit(consumption())"
+/>

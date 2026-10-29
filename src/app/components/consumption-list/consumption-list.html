@@ -28,22 +28,7 @@
     <ul>
       @for (consumption of consumptions(); track consumption.id) {
         <li>
-          <time [attr.datetime]="consumption.consumedAt.toISOString()">{{ time(consumption) }}</time>
-          <div class="info">
-            <span class="name">{{ consumption.drink.name }}</span>
-            <span class="details">
-              {{ formatNumber(consumption.consumedVolumeMl) }} ml ·
-              {{ formatNumber(consumption.drink.alcoholPercentage) }} %
-            </span>
-          </div>
-          <p-button
-            icon="pi pi-trash"
-            [rounded]="true"
-            [text]="true"
-            severity="danger"
-            [ariaLabel]="'Supprimer ' + consumption.drink.name + ' de ' + time(consumption)"
-            (onClick)="remove.emit(consumption)"
-          />
+          <app-consumption-item [consumption]="consumption" [time]="time(consumption)" (remove)="remove.emit($event)" />
         </li>
       }
     </ul>
